@@ -1,0 +1,38 @@
+{
+  "name": "m2-redux",
+  "version": "1.0.0",
+  "description": "The package is provided factory and utilities based on redux.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmiinyu/m2-redux.git"
+  },
+  "main": "index.js",
+  "keywords": [
+    "npm",
+    "package",
+    "utilities",
+    "factory",
+    "frontend",
+    "framework",
+    "redux",
+    "m2-redux"
+  ],
+  "scripts": {
+    "jsx": "./node_modules/.bin/babel src --out-dir dist"
+  },
+  "dependencies": {
+    "m2-core": "^1.0.0",
+    "m2-react": "^1.0.0",
+    "react": "16.3.0",
+    "react-redux": "5.0.6",
+    "redux": "3.7.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.4.4"
+  }
+}
