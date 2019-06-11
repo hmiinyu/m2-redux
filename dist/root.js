@@ -9,9 +9,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactRedux = require("react-redux");
 
-var _m2React = require("../../m2-react");
+var _m2React = require("m2-react");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Root = function Root(_ref) {
   var routes = _ref.routes,
@@ -20,7 +20,7 @@ var Root = function Root(_ref) {
 
   var _routes = (0, _m2React.renderRoutes)(routes, '/', routeType);
 
-  return _react.default.createElement(_reactRedux.Provider, {
+  return _react["default"].createElement(_reactRedux.Provider, {
     store: store
   }, _routes);
 };
