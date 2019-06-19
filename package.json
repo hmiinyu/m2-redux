@@ -19,11 +19,13 @@
     "m2-redux"
   ],
   "scripts": {
-    "jsx": "./node_modules/.bin/babel src --out-dir dist"
+    "compile": "./node_modules/.bin/babel src --out-dir dist",
+    "prepublishOnly": "NODE_ENV='publish' yarn compile"
   },
   "dependencies": {
-    "m2-core": "^1.0.0",
-    "m2-react": "^1.0.0",
+    "m2-core": "^1.0.3",
+    "m2-react": "^1.0.3",
+    "prop-types": "^15.7.2",
     "react": "16.3.0",
     "react-redux": "5.0.6",
     "redux": "3.7.2"
