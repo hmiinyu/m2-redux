@@ -48,9 +48,11 @@ var _redux_core = {
     if (configItem && configItem[name]) return configItem[name];
     return false;
   },
-  _cacheState: function _cacheState(config, actionKey, actionType, value) {
+  _cacheState: function _cacheState(config, actionKey, value) {
     if (_redux_core._getConfigItem(config, actionKey, 'cache')) {
-      _m2Core.DataStorage.set("".concat(_redux_core._redux_prefix, ":").concat(actionType), value, {
+      var _actionType = _redux_core._actionType(config, actionKey);
+
+      _m2Core.DataStorage.set("".concat(_redux_core._redux_prefix, ":").concat(_actionType), value, {
         encryptType: _m2Core.SYMMETRIC_CRYPTO_TYPE.DES
       });
     }
@@ -251,7 +253,7 @@ function () {
           } // 保存到storage中
 
 
-          _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+          _redux_core._cacheState(config, actionKey, _stateItem);
 
           return _objectSpread({}, state, _defineProperty({}, actionKey, _stateItem));
 
@@ -293,7 +295,7 @@ function () {
             error: null
           }); // 保存到storage中
 
-          _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+          _redux_core._cacheState(config, actionKey, _stateItem);
 
           return _objectSpread({}, state, _defineProperty({}, actionKey, _stateItem));
 
@@ -305,7 +307,7 @@ function () {
           } // 保存到storage中
 
 
-          _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+          _redux_core._cacheState(config, actionKey, _stateItem);
 
           return _objectSpread({}, state, _defineProperty({}, actionKey, _stateItem));
 
@@ -315,7 +317,7 @@ function () {
             error: action.payload.err
           }); // 保存到storage中
 
-          _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+          _redux_core._cacheState(config, actionKey, _stateItem);
 
           return _objectSpread({}, state, _defineProperty({}, actionKey, _stateItem));
 

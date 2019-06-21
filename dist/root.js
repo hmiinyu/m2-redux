@@ -55,23 +55,35 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this = this;
 
-      var checkIsAuth = this.props.checkIsAuth;
-      this.__authenticated = checkIsAuth();
-      this.props.store.subscribe(function () {
-        if (_this.__authenticated !== checkIsAuth()) {
-          _this.__authenticated = checkIsAuth();
+      var _this$props = this.props,
+          checkIsAuth = _this$props.checkIsAuth,
+          store = _this$props.store;
 
-          _this.forceUpdate();
-        }
-      });
+      if (checkIsAuth) {
+        this.__root_auth = checkIsAuth();
+        this.__store_unsubscribe = store.subscribe(function () {
+          var isAuth = checkIsAuth();
+
+          if (_this.__root_auth !== isAuth) {
+            _this.__root_auth = isAuth;
+
+            _this.forceUpdate();
+          }
+        });
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.__store_unsubscribe();
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          store = _this$props.store,
-          routes = _this$props.routes,
-          config = _objectWithoutProperties(_this$props, ["store", "routes"]);
+      var _this$props2 = this.props,
+          store = _this$props2.store,
+          routes = _this$props2.routes,
+          config = _objectWithoutProperties(_this$props2, ["store", "routes"]);
 
       var _routes = (0, _m2React.renderRoutes)(routes, '/', config);
 

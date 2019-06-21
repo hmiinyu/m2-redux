@@ -29,9 +29,10 @@ const _redux_core = {
     if (configItem && configItem[name]) return configItem[name];
     return false;
   },
-  _cacheState: (config, actionKey, actionType, value) => {
+  _cacheState: (config, actionKey, value) => {
     if (_redux_core._getConfigItem(config, actionKey, 'cache')) {
-      DataStorage.set(`${_redux_core._redux_prefix}:${actionType}`, value, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
+      const _actionType = _redux_core._actionType(config, actionKey);
+      DataStorage.set(`${_redux_core._redux_prefix}:${_actionType}`, value, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
     }
   },
   _getState: (config, actionKey, value) => {
@@ -152,7 +153,7 @@ export class ReduxFactory {
           _stateItem = handler();
         }
         // 保存到storage中
-        _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+        _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       default:
         return state;
@@ -178,7 +179,7 @@ export class ReduxFactory {
           error: null
         };
         // 保存到storage中
-        _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+        _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       case _actionType + '_success':
         _stateItem = {
@@ -191,7 +192,7 @@ export class ReduxFactory {
           DataBus.emit(_actionType, _stateItem);
         }
         // 保存到storage中
-        _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+        _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       case _actionType + '_failure':
         _stateItem = {
@@ -200,7 +201,7 @@ export class ReduxFactory {
           error: action.payload.err
         };
         // 保存到storage中
-        _redux_core._cacheState(config, actionKey, _actionType, _stateItem);
+        _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       default:
         return state;

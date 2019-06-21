@@ -14,14 +14,21 @@ export class Root extends React.Component {
   };
 
   componentDidMount() {
-    const { checkIsAuth } = this.props;
-    this.__authenticated = checkIsAuth();
-    this.props.store.subscribe(() => {
-      if (this.__authenticated !== checkIsAuth()) {
-        this.__authenticated = checkIsAuth();
-        this.forceUpdate();
-      }
-    });
+    const { checkIsAuth, store } = this.props;
+    if (checkIsAuth) {
+      this.__root_auth = checkIsAuth();
+      this.__store_unsubscribe = store.subscribe(() => {
+        const isAuth = checkIsAuth();
+        if (this.__root_auth !== isAuth) {
+          this.__root_auth = isAuth;
+          this.forceUpdate();
+        }
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.__store_unsubscribe();
   }
 
   render() {
