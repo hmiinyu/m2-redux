@@ -23,8 +23,8 @@
     "prepublishOnly": "NODE_ENV='publish' yarn compile"
   },
   "dependencies": {
-    "m2-core": "^1.1.0",
-    "m2-react": "^1.1.0",
+    "m2-core": "^1.1.1",
+    "m2-react": "^1.1.1",
     "prop-types": "^15.7.2",
     "react": "16.3.0",
     "react-redux": "5.0.6",

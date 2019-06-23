@@ -58,11 +58,15 @@ var _redux_core = {
     }
   },
   _getState: function _getState(config, actionKey, value) {
-    var _actionType = _redux_core._actionType(config, actionKey);
+    if (_redux_core._getConfigItem(config, actionKey, 'cache')) {
+      var _actionType = _redux_core._actionType(config, actionKey);
 
-    return _m2Core.DataStorage.get("".concat(_redux_core._redux_prefix, ":").concat(_actionType), {
-      encryptType: _m2Core.SYMMETRIC_CRYPTO_TYPE.DES
-    }) || value;
+      return _m2Core.DataStorage.get("".concat(_redux_core._redux_prefix, ":").concat(_actionType), {
+        encryptType: _m2Core.SYMMETRIC_CRYPTO_TYPE.DES
+      }) || value;
+    }
+
+    return value;
   },
   _redux_prefix: '@@redux/m2',
   _reset_state: '@@redux/INIT'
@@ -364,8 +368,7 @@ function () {
       var appReducer = (0, _redux.combineReducers)(reducers);
 
       if (action.type === _redux_core._reset_state) {
-        state = undefined;
-
+        // state = undefined;
         _m2Core.DataStorage.clear();
 
         _m2Core.DataStorage.clear(_m2Core.STORAGE_TYPE.Session);

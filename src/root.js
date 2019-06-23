@@ -32,8 +32,8 @@ export class Root extends React.Component {
   }
 
   render() {
-    const { store, routes, ...config } = this.props;
-    const _routes = renderRoutes(routes, '/', config);
+    const { store, routes, checkIsAuth, ...config } = this.props;
+    const _routes = renderRoutes(routes, '/', { ...config, authenticated: checkIsAuth() });
 
     return (
       <Provider store={store}>

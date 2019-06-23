@@ -36,8 +36,11 @@ const _redux_core = {
     }
   },
   _getState: (config, actionKey, value) => {
-    const _actionType = _redux_core._actionType(config, actionKey);
-    return DataStorage.get(`${_redux_core._redux_prefix}:${_actionType}`, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES }) || value;
+    if (_redux_core._getConfigItem(config, actionKey, 'cache')) {
+      const _actionType = _redux_core._actionType(config, actionKey);
+      return DataStorage.get(`${_redux_core._redux_prefix}:${_actionType}`, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES }) || value;
+    }
+    return value;
   },
   _redux_prefix: '@@redux/m2',
   _reset_state: '@@redux/INIT'
@@ -232,9 +235,9 @@ export class ReduxFactory {
    * @param action 当前操作
    */
   static createAppReducer(reducers, state, action) {
-    const appReducer = combineReducers(reducers)
+    const appReducer = combineReducers(reducers);
     if (action.type === _redux_core._reset_state) {
-      state = undefined;
+      // state = undefined;
       DataStorage.clear();
       DataStorage.clear(STORAGE_TYPE.Session);
     }
