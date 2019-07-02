@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Root = void 0;
+exports.reduxHotUpdate = exports.Root = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -111,3 +111,15 @@ _defineProperty(Root, "propTypes", {
   redirectUrl: _propTypes["default"].string,
   redirect404: _propTypes["default"].string
 });
+
+var reduxHotUpdate = function reduxHotUpdate(store, reducerPath) {
+  if (module.hot) {
+    module.hot.accept(reducerPath, function () {
+      var nextReducer = require(reducerPath)["default"];
+
+      store.replaceReducer(nextReducer);
+    });
+  }
+};
+
+exports.reduxHotUpdate = reduxHotUpdate;

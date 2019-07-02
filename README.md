@@ -1,6 +1,6 @@
 # m2-redux
 
-[![](m2-redux.svg)](https://github.com/hmiinyu/m2-redux.git) <br/>
+[![](https://img.shields.io/badge/m2--redux-v1.1.3-green.svg)](https://github.com/hmiinyu/m2-redux.git) <br/>
 The package is provided factory and utilities based on redux.
 
 You can learning the M2 architecture via visiting: 
