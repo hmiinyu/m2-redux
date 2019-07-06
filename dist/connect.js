@@ -50,7 +50,7 @@ var connect = function connect(_ref) {
     if (types !== undefined) {
       var _types = types;
 
-      var _dict = state.common && state.common.dictionary ? state.common.dictionary.data : [];
+      var _dict = state.common && state.common.dictionary ? state.common.dictionary.data || state.common.dictionary : [];
 
       if (_m2Core.DataType.isString(types)) {
         _types = types.split(',');

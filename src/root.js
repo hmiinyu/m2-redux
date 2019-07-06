@@ -42,12 +42,3 @@ export class Root extends React.Component {
     )
   }
 }
-
-export const reduxHotUpdate = (store, reducerPath) => {
-  if (module.hot) {
-    module.hot.accept(reducerPath, () => {
-      const nextReducer = require(reducerPath).default;
-      store.replaceReducer(nextReducer);
-    });
-  }
-};

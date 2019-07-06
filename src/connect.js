@@ -29,7 +29,7 @@ export const connect = ({ reducers, actions, types }) => _connect(
     }
     if (types !== undefined) {
       let _types = types;
-      let _dict = state.common && state.common.dictionary ? state.common.dictionary.data : [];
+      let _dict = state.common && state.common.dictionary ? (state.common.dictionary.data || state.common.dictionary) : [];
       if (DataType.isString(types)) {
         _types = types.split(',');
       } else if (DataType.isArray(types)) {
