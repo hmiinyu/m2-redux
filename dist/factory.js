@@ -304,7 +304,10 @@ function () {
           return _objectSpread({}, state, _defineProperty({}, actionKey, _stateItem));
 
         case _actionType + '_success':
-          _stateItem = _objectSpread({}, _stateItem, (_objectSpread4 = {}, _defineProperty(_objectSpread4, resultField, action.payload), _defineProperty(_objectSpread4, "pending", false), _defineProperty(_objectSpread4, "error", null), _objectSpread4));
+          var merge = _redux_core._getConfigItem(config, actionKey, 'merge');
+
+          var data = merge ? _stateItem[resultField].concat(action.payload) : action.payload;
+          _stateItem = _objectSpread({}, _stateItem, (_objectSpread4 = {}, _defineProperty(_objectSpread4, resultField, data), _defineProperty(_objectSpread4, "pending", false), _defineProperty(_objectSpread4, "error", null), _objectSpread4));
 
           if (_redux_core._getConfigItem(config, actionKey, 'emit')) {
             _m2Core.DataBus.emit(_actionType, _stateItem);

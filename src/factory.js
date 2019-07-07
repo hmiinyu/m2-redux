@@ -185,9 +185,11 @@ export class ReduxFactory {
         _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       case _actionType + '_success':
+        const merge = _redux_core._getConfigItem(config, actionKey, 'merge');
+        const data = merge ? _stateItem[resultField].concat(action.payload) : action.payload
         _stateItem = {
           ..._stateItem,
-          [resultField]: action.payload,
+          [resultField]: data,
           pending: false,
           error: null
         };
