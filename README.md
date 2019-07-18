@@ -1,6 +1,6 @@
 # m2-redux
 
-[![](https://img.shields.io/badge/m2--redux-v1.1.3-green.svg)](https://github.com/hmiinyu/m2-redux.git) <br/>
+[![](https://img.shields.io/badge/m2--redux-v1.1.5-green.svg)](https://github.com/hmiinyu/m2-redux.git) <br/>
 The package is provided factory and utilities based on redux.
 
 You can learning the M2 architecture via visiting: 
@@ -73,7 +73,7 @@ class HomePage extends React.Component {
 #### 
 | prop or func | type | description | 
 | ------------ | ------------ | ------------ |
-| createStore | func | create the redux store with the params **rootReducer**, **middlewares**(eg: thunk,saga,logger) |
+| createStore | func | create the redux store with the params **rootReducer**, {**configThunk**, **routeType**, **defaultRoute**, **middlewares**}(eg: thunk,saga,logger) |
 | createInitialState | func | create the initialState based on feature reducer with the params **config** |
 | createActionType | func | create the action type with the params **config** (for emit async event) |
 | createAction | func | create the sync action with the params **params{config,actionKey[,actionType]}**,**payload**  |
@@ -85,11 +85,10 @@ class HomePage extends React.Component {
 | clearRedux | func | clear all redux data(only when user will exit the app) |
 ```js
 // create the store
-import thunk from 'redux-thunk'
 import { ReduxFactory } from 'm2-redux'
 import rootReducer from '@/features/app/redux/reducers'
 
-const store = ReduxFactory.createStore(rootReducer, thunk)
+const store = ReduxFactory.createStore(rootReducer, { defaultRoute: 'home' })
 const checkIsAuth = () => store.getState().auth.loginUser.authenticated
 
 export default {
@@ -146,3 +145,14 @@ const reducerMap = {
 }
 
 export default (state, action) => ReduxFactory.createAppReducer(reducerMap, state, action)
+```
+- Root **class** The root component integrate Router, Store by Provider.
+#### 
+| prop or func | type | description | 
+| ------------ | ------------ | ------------ |
+| store | object | the app redux store created by ReduxFactory |
+| routes | array | the app router included all component routes |
+| routeType | string | the route type default as 'hash' |
+| checkIsAuth | func | check if the user is authenticated |
+| redirectUrl | string | if the user isn't authenticated, it will redirect the page (usually login) |
+| redirect404 | string | if the route doesn't be matched, it will redirect the page (usually 404) |

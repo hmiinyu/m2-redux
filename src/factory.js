@@ -6,7 +6,12 @@
  * @createDate 2019-01-24
  */
 import { applyMiddleware, compose, combineReducers, createStore as _createStore } from 'redux';
-import { DataBus, DataType, DataStorage, STORAGE_TYPE, SYMMETRIC_CRYPTO_TYPE } from 'm2-core';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import { IsDev, DataBus, DataType, DataStorage, STORAGE_TYPE, SYMMETRIC_CRYPTO_TYPE } from 'm2-core';
+import { createHistory } from 'm2-react';
+
 /**
  * @method Redux工厂的私有方法集
  * @param {Object} [Required] config 当前feature的Redux配置文件
@@ -49,14 +54,25 @@ export class ReduxFactory {
   /**
    * @method 创建应用的Store(内部自动集成 Redux Dev Tools)
    * @param {Object} [Required] rootReducer 当前应用的根Reducer
+   * @param {Boolean} [Optional] configThunk 配置thunk(默认为true)
+   * @param {String} [Optional] defaultRoute 默认路由(默认为'')
+   * @param {String} [Optional] routeType 路由类型(默认为hash)
    * @param {Array} [Optional] middlewares 中间件配置(非必需，如：thunk,logger))
    */
-  static createStore(rootReducer, ...middlewares) {
-    let enhancer;
+  static createStore(rootReducer, { configThunk = true, defaultRoute = '', routeType = 'hash', middlewares = [] } = {}) {
+    const history = createHistory(routeType);
+    defaultRoute && history.replace(defaultRoute);
+    let enhancer, middleware = [routerMiddleware(history)].concat(middlewares);
+    if (configThunk) {
+      middleware = [...middleware, thunk];
+    }
+    if (IsDev) {
+      middleware = [...middleware, logger];
+    }
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
-      enhancer = compose(applyMiddleware(...middlewares), window.__REDUX_DEVTOOLS_EXTENSION__());
+      enhancer = compose(applyMiddleware(...middleware), window.__REDUX_DEVTOOLS_EXTENSION__());
     } else {
-      enhancer = applyMiddleware(...middlewares);
+      enhancer = applyMiddleware(...middleware);
     }
     return _createStore(rootReducer, enhancer);
   }
@@ -185,11 +201,9 @@ export class ReduxFactory {
         _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
       case _actionType + '_success':
-        const merge = _redux_core._getConfigItem(config, actionKey, 'merge');
-        const data = merge ? _stateItem[resultField].concat(action.payload) : action.payload
         _stateItem = {
           ..._stateItem,
-          [resultField]: data,
+          [resultField]: action.payload,
           pending: false,
           error: null
         };
@@ -237,7 +251,10 @@ export class ReduxFactory {
    * @param action 当前操作
    */
   static createAppReducer(reducers, state, action) {
-    const appReducer = combineReducers(reducers);
+    const appReducer = combineReducers({
+      ...reducers,
+      router: routerReducer
+    });
     if (action.type === _redux_core._reset_state) {
       // state = undefined;
       DataStorage.clear();

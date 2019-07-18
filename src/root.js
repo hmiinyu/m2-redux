@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { renderRoutes } from 'm2-react';
+import { ConnectedRouter } from 'react-router-redux';
+import { renderRoutes, createHistory } from 'm2-react';
 
 export class Root extends React.Component {
   static propTypes = {
@@ -32,12 +33,14 @@ export class Root extends React.Component {
   }
 
   render() {
-    const { store, routes, checkIsAuth, ...config } = this.props;
+    const { store, routes, checkIsAuth, routeType, ...config } = this.props;
     const _routes = renderRoutes(routes, '/', { ...config, authenticated: checkIsAuth() });
 
     return (
       <Provider store={store}>
-        {_routes}
+        <ConnectedRouter history={createHistory(routeType)}>
+          {_routes}
+        </ConnectedRouter>
       </Provider>
     )
   }

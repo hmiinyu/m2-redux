@@ -11,6 +11,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRedux = require("react-redux");
 
+var _reactRouterRedux = require("react-router-redux");
+
 var _m2React = require("m2-react");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -86,7 +88,8 @@ function (_React$Component) {
           store = _this$props2.store,
           routes = _this$props2.routes,
           checkIsAuth = _this$props2.checkIsAuth,
-          config = _objectWithoutProperties(_this$props2, ["store", "routes", "checkIsAuth"]);
+          routeType = _this$props2.routeType,
+          config = _objectWithoutProperties(_this$props2, ["store", "routes", "checkIsAuth", "routeType"]);
 
       var _routes = (0, _m2React.renderRoutes)(routes, '/', _objectSpread({}, config, {
         authenticated: checkIsAuth()
@@ -94,7 +97,9 @@ function (_React$Component) {
 
       return _react["default"].createElement(_reactRedux.Provider, {
         store: store
-      }, _routes);
+      }, _react["default"].createElement(_reactRouterRedux.ConnectedRouter, {
+        history: (0, _m2React.createHistory)(routeType)
+      }, _routes));
     }
   }]);
 
