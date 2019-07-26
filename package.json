@@ -1,6 +1,6 @@
 {
   "name": "m2-redux",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "The package is provided factory and utilities based on redux.",
   "license": "MIT",
   "repository": {
