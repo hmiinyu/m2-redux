@@ -256,7 +256,7 @@ export class ReduxFactory {
       router: routerReducer
     });
     if (action.type === _redux_core._reset_state) {
-      // state = undefined;
+      state = undefined;
       DataStorage.clear();
       DataStorage.clear(STORAGE_TYPE.Session);
     }

@@ -408,7 +408,8 @@ function () {
       }));
 
       if (action.type === _redux_core._reset_state) {
-        // state = undefined;
+        state = undefined;
+
         _m2Core.DataStorage.clear();
 
         _m2Core.DataStorage.clear(_m2Core.STORAGE_TYPE.Session);
