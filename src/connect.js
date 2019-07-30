@@ -36,6 +36,9 @@ export const connect = ({ reducers, actions, types }) => _connect(
         _types = types;
       }
       result.dict = {};
+      if (!DataType.isArray(_dict)) {
+        _dict = [];
+      }
       _types.forEach(type => {
         if (DataType.isString(type)) {
           const items = DataUtil.getDictItems(_dict, type);

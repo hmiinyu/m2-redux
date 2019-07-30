@@ -47,6 +47,20 @@ const _redux_core = {
     }
     return value;
   },
+  _resetState: (config) => {
+    const state = {};
+    const cacheKeys = config.actionKeys.filter(item => item.cache);
+    if (cacheKeys.length) {
+      const _actionType = _redux_core._actionType(config, cacheKeys[0].key);
+      const _value = DataStorage.get(`${_redux_core._redux_prefix}:${_actionType}`, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES })
+      if (!_value) {
+        cacheKeys.forEach(item => {
+          state[item.key] = item.data;
+        });
+      }
+    }
+    return state;
+  },
   _redux_prefix: '@@redux/m2',
   _reset_state: '@@redux/INIT'
 }
@@ -174,6 +188,8 @@ export class ReduxFactory {
         // 保存到storage中
         _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
+      case _redux_core._reset_state:
+        return { ...state, ..._redux_core._resetState(config) };
       default:
         return state;
     }
@@ -222,6 +238,8 @@ export class ReduxFactory {
         // 保存到storage中
         _redux_core._cacheState(config, actionKey, _stateItem);
         return { ...state, [actionKey]: _stateItem };
+      case _redux_core._reset_state:
+        return { ...state, ..._redux_core._resetState(config) };
       default:
         return state;
     }

@@ -60,6 +60,10 @@ var connect = function connect(_ref) {
 
       result.dict = {};
 
+      if (!_m2Core.DataType.isArray(_dict)) {
+        _dict = [];
+      }
+
       _types.forEach(function (type) {
         if (_m2Core.DataType.isString(type)) {
           var items = _m2Core.DataUtil.getDictItems(_dict, type);
