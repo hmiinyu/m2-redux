@@ -88,7 +88,7 @@ class HomePage extends React.Component {
 import { ReduxFactory } from 'm2-redux'
 import rootReducer from '@/features/app/redux/reducers'
 
-const store = ReduxFactory.createStore(rootReducer, { defaultRoute: 'home' })
+const store = ReduxFactory.createStore(rootReducer, { defaultRoute: 'home', configLogger: true })
 const checkIsAuth = () => store.getState().auth.loginUser.authenticated
 
 export default {

@@ -69,18 +69,19 @@ export class ReduxFactory {
    * @method 创建应用的Store(内部自动集成 Redux Dev Tools)
    * @param {Object} [Required] rootReducer 当前应用的根Reducer
    * @param {Boolean} [Optional] configThunk 配置thunk(默认为true)
+   * @param {Boolean} [Optional] configLogger 配置logger(默认为false)
    * @param {String} [Optional] defaultRoute 默认路由(默认为'')
    * @param {String} [Optional] routeType 路由类型(默认为hash)
    * @param {Array} [Optional] middlewares 中间件配置(非必需，如：thunk,logger))
    */
-  static createStore(rootReducer, { configThunk = true, defaultRoute = '', routeType = 'hash', middlewares = [] } = {}) {
+  static createStore(rootReducer, { configThunk = true, configLogger = false, defaultRoute = '', routeType = 'hash', middlewares = [] } = {}) {
     const history = createHistory(routeType);
     defaultRoute && history.replace(defaultRoute);
     let enhancer, middleware = [routerMiddleware(history)].concat(middlewares);
     if (configThunk) {
       middleware = [...middleware, thunk];
     }
-    if (IsDev) {
+    if (IsDev && configLogger) {
       middleware = [...middleware, logger];
     }
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {

@@ -126,6 +126,7 @@ function () {
      * @method 创建应用的Store(内部自动集成 Redux Dev Tools)
      * @param {Object} [Required] rootReducer 当前应用的根Reducer
      * @param {Boolean} [Optional] configThunk 配置thunk(默认为true)
+     * @param {Boolean} [Optional] configLogger 配置logger(默认为false)
      * @param {String} [Optional] defaultRoute 默认路由(默认为'')
      * @param {String} [Optional] routeType 路由类型(默认为hash)
      * @param {Array} [Optional] middlewares 中间件配置(非必需，如：thunk,logger))
@@ -134,6 +135,8 @@ function () {
       var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
           _ref$configThunk = _ref.configThunk,
           configThunk = _ref$configThunk === void 0 ? true : _ref$configThunk,
+          _ref$configLogger = _ref.configLogger,
+          configLogger = _ref$configLogger === void 0 ? false : _ref$configLogger,
           _ref$defaultRoute = _ref.defaultRoute,
           defaultRoute = _ref$defaultRoute === void 0 ? '' : _ref$defaultRoute,
           _ref$routeType = _ref.routeType,
@@ -150,7 +153,7 @@ function () {
         middleware = [].concat(_toConsumableArray(middleware), [_reduxThunk["default"]]);
       }
 
-      if (_m2Core.IsDev) {
+      if (_m2Core.IsDev && configLogger) {
         middleware = [].concat(_toConsumableArray(middleware), [_reduxLogger["default"]]);
       }
 
